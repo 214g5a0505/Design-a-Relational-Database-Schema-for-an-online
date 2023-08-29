@@ -1,0 +1,57 @@
+CREATE TABLE Book (
+    ISBN VARCHAR(20) PRIMARY KEY,
+    Title VARCHAR(255) NOT NULL,
+    Publication_Year INT NOT NULL,
+    Price DECIMAL(10, 2) NOT NULL
+);
+
+CREATE TABLE Genre (
+    Genre_ID INT PRIMARY KEY,
+    Name VARCHAR(50) NOT NULL,
+    Description TEXT
+);
+
+CREATE TABLE Book_Genre (
+    ISBN VARCHAR(20),
+    Genre_ID INT,
+    PRIMARY KEY (ISBN, Genre_ID),
+    FOREIGN KEY (ISBN) REFERENCES Book(ISBN),
+    FOREIGN KEY (Genre_ID) REFERENCES Genre(Genre_ID)
+);
+
+CREATE TABLE Author (
+    Author_ID INT PRIMARY KEY,
+    Name VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE Book_Author (
+    ISBN VARCHAR(20),
+    Author_ID INT,
+    PRIMARY KEY (ISBN, Author_ID),
+    FOREIGN KEY (ISBN) REFERENCES Book(ISBN),
+    FOREIGN KEY (Author_ID) REFERENCES Author(Author_ID)
+);
+
+CREATE TABLE Customer (
+    Customer_ID INT PRIMARY KEY,
+    Name VARCHAR(100) NOT NULL,
+    Email_Address VARCHAR(255) NOT NULL,
+    Shipping_Address TEXT NOT NULL
+);
+
+CREATE TABLE Order (
+    Order_ID INT PRIMARY KEY,
+    Customer_ID INT NOT NULL,
+    Order_Date DATETIME NOT NULL,
+    FOREIGN KEY (Customer_ID) REFERENCES Customer(Customer_ID)
+);
+
+CREATE TABLE Order_Item (
+    Order_ID INT,
+    ISBN VARCHAR(20),
+    Quantity INT NOT NULL,
+    Price DECIMAL(10, 2) NOT NULL,
+    PRIMARY KEY (Order_ID, ISBN),
+    FOREIGN KEY (Order_ID) REFERENCES Order(Order_ID),
+    FOREIGN KEY (ISBN) REFERENCES Book(ISBN)
+);
